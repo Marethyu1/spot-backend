@@ -1,0 +1,40 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server for SPOT",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand",
+    "create:dev-db": "node_modules/.bin/sequelize db:create && NODE_ENV=development node ./scripts/create-tables",
+    "create:test-db": "node_modules/.bin/sequelize db:create --env=test && NODE_ENV=test node ./scripts/create-tables",
+    "drop:dev-db": "node_modules/.bin/sequelize db:drop",
+    "drop:test-db": "node_modules/.bin/sequelize db:drop --env=test",
+    "create:dbs": "npm run create:dev-db && npm run create:test-db",
+    "start-docker": "docker-compose run --service-ports db",
+    "start": "node index.js"
+  },
+  "author": "Liz and Stefan",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/vision": "^0.22.1",
+    "body-parser": "^1.18.3",
+    "eslint-config-airbnb": "^17.1.0",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "morgan": "^1.9.1",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.7.1",
+    "sequelize-cli": "^5.4.0",
+    "sharp": "^0.20.8"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.12.4",
+    "faker": "^4.1.0",
+    "jest": "^23.6.0",
+    "supertest": "^3.4.2"
+  }
+}
