@@ -5,7 +5,6 @@ const dogsModel = require("../../src/models/dogs-model")
 const createUser = (options={}) => {
     const props = generateUserProps()
     const merged = Object.assign(props, options)
-    console.log("MERGED", merged)
     return userModel.upsert(merged)
 }
 
