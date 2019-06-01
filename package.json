@@ -11,7 +11,8 @@
     "drop:test-db": "node_modules/.bin/sequelize db:drop --env=test",
     "create:dbs": "npm run create:dev-db && npm run create:test-db",
     "start-docker": "docker-compose run --service-ports db",
-    "start": "node index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Liz and Stefan",
   "license": "MIT",
@@ -35,6 +36,7 @@
     "eslint-plugin-react": "^7.12.4",
     "faker": "^4.1.0",
     "jest": "^23.6.0",
+    "nodemon": "^1.19.1",
     "supertest": "^3.4.2"
   }
 }

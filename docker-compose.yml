@@ -8,17 +8,18 @@ services:
     build: 
       context: .
     ports:
-      - "8080:3000"
+      - "8080:8080"
     volumes:
       - .:/app
     links:
       - db
+    command: npm run dev
   db:
     image: mysql:5.7.13
     environment:
       MYSQL_ROOT_PASSWORD: example
     ports:
-    - "3306:3306"
+      - "3306:3306"
 
  
 #Run docker in detached mode
