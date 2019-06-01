@@ -2,7 +2,8 @@ const fs = require("fs")
 const path = require("path")
 const USER_ID = "10210259641485879"
 
-const {createDogLoadImage} =require("../test/helper/model-generation")
+const {createDogLoadImage, createUser} =require("../test/helper/model-generation")
+const userModel = require("../src/models/user-model");
 
 function loadImages(){
     const IMAGE_DIR = path.join(__dirname, "images")
@@ -21,9 +22,25 @@ async function createDogs(user_id, images) {
     return Promise.all(promises)
 }
 
-function main(){
+async function main(){
+    const exampleUser = {
+        id: USER_ID,
+        name: 'Stefan',
+        email: "stefan-hall@hotmail.com",
+    }
+
     const images = loadImages()
-    return createDogs(USER_ID, images)
+
+    try {
+        const user = await userModel.get(USER_ID)
+        if (!user) throw new Error("User not found")
+        console.log("User already exists")
+    } catch (err) {
+        const user = await createUser(exampleUser)
+        console.log("CREATED USER", user.id)
+        const createdDogs = await createDogs(USER_ID, images);
+        console.log("CREATED DOGS", createdDogs)
+    }
 }
 
 main().then(() => process.exit(0))

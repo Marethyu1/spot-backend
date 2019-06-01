@@ -3,7 +3,7 @@
     "username": "root",
     "password": "example",
     "database": "spot_dev",
-    "host": "localhost",
+    "host": "spot-backend_db_1",
     "dialect": "mysql"
   },
   "test": {

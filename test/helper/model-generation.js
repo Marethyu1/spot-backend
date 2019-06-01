@@ -2,9 +2,11 @@ const {generateUserProps, generateDogProps, generateDogPropsWithImage} = require
 const userModel = require("../../src/models/user-model")
 const dogsModel = require("../../src/models/dogs-model")
 
-const createUser = () => {
+const createUser = (options={}) => {
     const props = generateUserProps()
-    return userModel.upsert(props)
+    const merged = Object.assign(props, options)
+    console.log("MERGED", merged)
+    return userModel.upsert(merged)
 }
 
 const createDog = async (user_id) => {
