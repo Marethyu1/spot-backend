@@ -1,3 +1,3 @@
 const bitmap = require("./load-image")
-const encodedImage = new Buffer(bitmap).toString("base64")
+const encodedImage = Buffer.from(bitmap).toString("base64")
 module.exports = encodedImage

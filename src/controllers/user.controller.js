@@ -38,7 +38,7 @@ const createDog = async (req, res) => {
     ...req.body,
     ...req.body.geocode,
   }
-  const image = new Buffer(options.image.image.toString(), 'base64')
+  const image = Buffer.from(options.image.image.toString(), 'base64')
 
   const tags = await getTags(image)
     .catch((err) => {

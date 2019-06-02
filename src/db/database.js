@@ -80,7 +80,28 @@ class Database {
      */
   async testConnection() {
     return sequelize.authenticate()
+      .then(() => console.log(`Successfully connected to the db`))
       .then(() => true)
+  }
+
+  async tryConnect(maxAttempts=1){
+    let attempts= 0
+    let waitTime = 1000
+    const sleep = (ms) => new Promise((res) => setTimeout(res, ms))
+
+    while (attempts < maxAttempts){
+      try {
+        await this.testConnection();
+        return true
+      } catch (err) {
+        attempts +=1
+        console.log(`failed to connect on attempt ${attempts}`);
+        console.log(`Waiting for ${waitTime/1000} seconds`)
+        await sleep(waitTime)
+        waitTime *= 3
+      }
+    }
+    throw new Error(`Could not connect after ${maxAttempts} attempts`)
   }
 
   /**

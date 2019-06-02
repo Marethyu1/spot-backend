@@ -22,7 +22,7 @@ async function createDogs(user_id, images) {
     return Promise.all(promises)
 }
 
-async function main(){
+async function createDoggos(){
     const exampleUser = {
         id: USER_ID,
         name: 'Stefan',
@@ -30,7 +30,7 @@ async function main(){
     }
 
     const images = loadImages()
-
+    console.log("Adding user data...")
     try {
         const user = await userModel.get(USER_ID)
         if (!user) throw new Error("User not found")
@@ -43,4 +43,6 @@ async function main(){
     }
 }
 
-main().then(() => process.exit(0))
+module.exports = {
+    createDoggos
+}

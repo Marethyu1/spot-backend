@@ -10,7 +10,7 @@ const path = require("path")
 const dir = path.join(__dirname + "/../../images/golden-dog.jpg")
 const bitmap = fs.readFileSync(dir)
 
-const encodedImage = new Buffer(bitmap)
+const encodedImage =  Buffer.from(bitmap)
 
 
 
