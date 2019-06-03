@@ -3,6 +3,7 @@ const app = require('./server')
 const { getDatabase, setUp } = require('./src/db/database-manager')
 const PORT = process.env.PORT || 8080
 const {createDoggos} = require('./scripts/create-doggos')
+const {tryStartup} = require('./scripts/create-db')
 
 const db = getDatabase()
 
@@ -15,11 +16,11 @@ function initApp(){
 }
 
 if (NODE_ENV === "development") {
-  console.log("yeowza")
-  db.tryConnect(5)
-    .then(createDoggos)
-    .then(initApp)
-    .catch((err) => {
+  tryStartup(5)
+  .then(() => db.sync(false))
+  .then(createDoggos)
+  .then(initApp)
+  .catch((err) => {
       console.log("Could not connect to db", err)
     })
 } else {

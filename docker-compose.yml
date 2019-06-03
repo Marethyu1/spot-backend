@@ -4,6 +4,8 @@ version: '3.1'
 services:
   app:
     container_name: node-app
+    environment:
+      - NODE_ENV=development
     restart: always
     build: 
       context: .
@@ -28,4 +30,7 @@ services:
 #docker-compose run --service-ports db
 
 
+##jump into container
 # docker exec -it 4bdefd5e5c3e mysql 
+
+# docker system prune -a delete all containerinos

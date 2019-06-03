@@ -91,10 +91,16 @@ class Database {
 
     while (attempts < maxAttempts){
       try {
+        await sequelize.query("CREATE DATABASE IF NOT EXISTS spot_dev")
+          .then(() => console.log("DID A thING"))
+          .catch(err => console.log("NOOO", err))
+        await this.sync(true)
+          .catch(console.log)
         await this.testConnection();
         return true
       } catch (err) {
         attempts +=1
+        console.log(err)
         console.log(`failed to connect on attempt ${attempts}`);
         console.log(`Waiting for ${waitTime/1000} seconds`)
         await sleep(waitTime)

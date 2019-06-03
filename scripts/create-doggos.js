@@ -39,7 +39,7 @@ async function createDoggos(){
         const user = await createUser(exampleUser)
         console.log("CREATED USER", user.id)
         const createdDogs = await createDogs(USER_ID, images);
-        console.log("CREATED DOGS", createdDogs)
+        console.log("CREATED DOGS")
     }
 }
 
