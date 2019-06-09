@@ -10,7 +10,8 @@ services:
     build:
       context: .
     ports:
-      - "8080:8080"
+      - 8080:8080
+      - 9229:9229
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -22,7 +23,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: example
     ports:
-      - "3306:3306"
+      - 3306:3306
 
  
 #build: docker-compose build
