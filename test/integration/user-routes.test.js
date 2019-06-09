@@ -60,7 +60,7 @@ describe('the user routes', () => {
     })
   })
 
-  describe('When adding a tag for an image', async () => {
+  describe('When adding a tag for an image', () => {
     it('Should be able to update the tag', async () => {
       const dog = await createDog()
       const UPDATED_TAG = 'COOL DOG'
