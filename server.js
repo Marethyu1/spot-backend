@@ -5,7 +5,7 @@ const BASE_URL = '/api/v1'
 const app = express()
 
 app.get('/', (req, res) => {
-  res.send('Hello World!!!')
+  res.send('Hello World!!!' + process.env.NODE_ENV)
 })
 
 app.use(morgan('tiny'))

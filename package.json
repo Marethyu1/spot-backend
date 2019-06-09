@@ -12,7 +12,7 @@
     "create:dbs": "npm run create:dev-db && npm run create:test-db",
     "start-docker": "docker-compose run --service-ports db",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon --inspect=0.0.0.0:9229 index.js"
   },
   "author": "Liz and Stefan",
   "license": "MIT",
@@ -35,7 +35,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "faker": "^4.1.0",
-    "jest": "^23.6.0",
+    "jest": "^24.8.0",
     "nodemon": "^1.19.1",
     "supertest": "^3.4.2"
   }
