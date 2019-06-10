@@ -80,29 +80,29 @@ class Database {
      */
   async testConnection() {
     return sequelize.authenticate()
-      .then(() => console.log(`Successfully connected to the db`))
+      .then(() => console.log('Successfully connected to the db'))
       .then(() => true)
   }
 
-  async tryConnect(maxAttempts=1){
-    let attempts= 0
+  async tryConnect(maxAttempts = 1) {
+    let attempts = 0
     let waitTime = 1000
-    const sleep = (ms) => new Promise((res) => setTimeout(res, ms))
+    const sleep = ms => new Promise(res => setTimeout(res, ms))
 
-    while (attempts < maxAttempts){
+    while (attempts < maxAttempts) {
       try {
-        await sequelize.query("CREATE DATABASE IF NOT EXISTS spot_dev")
-          .then(() => console.log("DID A thING"))
-          .catch(err => console.log("NOOO", err))
+        await sequelize.query('CREATE DATABASE IF NOT EXISTS spot_dev')
+          .then(() => console.log('DID A thING'))
+          .catch(err => console.log('NOOO', err))
         await this.sync(true)
           .catch(console.log)
-        await this.testConnection();
+        await this.testConnection()
         return true
       } catch (err) {
-        attempts +=1
+        attempts += 1
         console.log(err)
-        console.log(`failed to connect on attempt ${attempts}`);
-        console.log(`Waiting for ${waitTime/1000} seconds`)
+        console.log(`failed to connect on attempt ${attempts}`)
+        console.log(`Waiting for ${waitTime / 1000} seconds`)
         await sleep(waitTime)
         waitTime *= 3
       }

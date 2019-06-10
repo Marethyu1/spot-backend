@@ -1,4 +1,4 @@
-const sharp = require('sharp');
+const sharp = require('sharp')
 const path = require('path')
 
 const PIN_LOCATION = path.join(__dirname, 'pin_new.png')
