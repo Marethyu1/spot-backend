@@ -24,6 +24,12 @@ Parameters:
     Description: Fleet configured in CodeDeploy
     Type: String
     Default: DemoFleet
+  BuildImage:
+    Type: String
+    Default: aws/codebuild/docker:17.09.0
+  ProjectName:
+    Type: String
+    Default: spot
 Resources:
   CodePipelineArtifactStoreBucket:
     Type: 'AWS::S3::Bucket'
@@ -118,6 +124,50 @@ Resources:
       ArtifactStore:
         Type: S3
         Location: !Ref CodePipelineArtifactStoreBucket
+  BuildProject:
+    Properties:
+      Artifacts:
+        Type: CODEPIPELINE
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: !Ref 'BuildImage'
+        PrivilegedMode: 'true'
+        Type: LINUX_CONTAINER
+      Name: !Ref 'ProjectName'
+      ServiceRole: !Ref 'CodePipelineServiceRole'
+      Source:
+        BuildSpec: !Sub |
+          version: 0.2
+
+          phases:
+            pre_build:
+              commands:
+                - echo Logging in to Amazon ECR...
+                - aws --version
+                - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+                - REPOSITORY_URI=475434255466.dkr.ecr.us-east-1.amazonaws.com/spot
+                - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+                - IMAGE_TAG=${COMMIT_HASH:=latest}
+            build:
+              commands:
+                - echo Build started on `date`
+                - echo Building the Docker image...
+                - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
+                - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+                - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+
+            post_build:
+              commands:
+                - echo Build completed on `date`
+                - echo Pushing the Docker image...
+                - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+                - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+
+          artifacts:
+            files:
+              - VERSION.txt
+        Type: CODEPIPELINE
+    Type: AWS::CodeBuild::Project
   CodePipelineServiceRole:
     Type: 'AWS::IAM::Role'
     Properties:
