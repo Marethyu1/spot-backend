@@ -134,7 +134,7 @@ Resources:
         PrivilegedMode: 'true'
         Type: LINUX_CONTAINER
       Name: !Ref 'ProjectName'
-      ServiceRole: !Ref 'CodePipelineServiceRole'
+      ServiceRole: ServiceRole: !GetAtt [ IamRoleForCodeBuild, Arn ]
       Source:
         BuildSpec: !Sub |
           version: 0.2
@@ -168,6 +168,11 @@ Resources:
               - VERSION.txt
         Type: CODEPIPELINE
     Type: AWS::CodeBuild::Project
+
+
+
+
+#############################
   CodePipelineServiceRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -238,3 +243,51 @@ Resources:
                   - 'sqs:*'
                   - 'ecs:*'
                 Resource: '*'
+
+
+#############################
+  IamRoleForCodeBuild:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-iam-role-codebuild
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+      Policies:
+        - PolicyName: policy-for-codebuild
+          PolicyDocument:
+            Statement:
+              - Effect: Allow
+                Action: [
+                  "logs:CreateLogGroup",
+                  "logs:CreateLogStream",
+                  "logs:PutLogEvents",
+                  "logs:DescribeLogStreams"]
+                Resource: "arn:aws:logs:*:*:*"
+              - Effect: Allow
+                Action: [
+                  "ecr:BatchCheckLayerAvailability",
+                  "ecr:GetDownloadUrlForLayer",
+                  "ecr:GetRepositoryPolicy",
+                  "ecr:DescribeRepositories",
+                  "ecr:ListImages",
+                  "ecr:DescribeImages",
+                  "ecr:BatchGetImage",
+                  "ecr:CompleteLayerUpload",
+                  "ecr:GetAuthorizationToken",
+                  "ecr:InitiateLayerUpload",
+                  "ecr:PutImage",
+                  "ecr:UploadLayerPart"]
+                Resource: "*"
+              - Effect: Allow
+                Action: ["sns:Publish"]
+                Resource: "*"
+#https://github:
+#  com/nomnux/aws-codebuild-docker-project-sample/blob/master/cloudformation/codebuild-project:
+#    yml:
