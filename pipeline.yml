@@ -134,35 +134,14 @@ Resources:
         PrivilegedMode: 'true'
         Type: LINUX_CONTAINER
       Name: !Ref 'ProjectName'
-      ServiceRole: ServiceRole: !GetAtt [ IamRoleForCodeBuild, Arn ]
+      ServiceRole: !GetAtt [ IamRoleForCodeBuild, Arn ]
       Source:
         BuildSpec: !Sub |
           version: 0.2
-
           phases:
-            pre_build:
-              commands:
-                - echo Logging in to Amazon ECR...
-                - aws --version
-                - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-                - REPOSITORY_URI=475434255466.dkr.ecr.us-east-1.amazonaws.com/spot
-                - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-                - IMAGE_TAG=${COMMIT_HASH:=latest}
             build:
               commands:
-                - echo Build started on `date`
                 - echo Building the Docker image...
-                - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
-                - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-                - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
-
-            post_build:
-              commands:
-                - echo Build completed on `date`
-                - echo Pushing the Docker image...
-                - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-                - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
-
           artifacts:
             files:
               - VERSION.txt
@@ -192,14 +171,6 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                  - 'codecommit:CancelUploadArchive'
-                  - 'codecommit:GetBranch'
-                  - 'codecommit:GetCommit'
-                  - 'codecommit:GetUploadArchiveStatus'
-                  - 'codecommit:UploadArchive'
-                Resource: '*'
-              - Effect: Allow
-                Action:
                   - 'codedeploy:CreateDeployment'
                   - 'codedeploy:GetApplicationRevision'
                   - 'codedeploy:GetDeployment'
@@ -210,20 +181,6 @@ Resources:
                 Action:
                   - 'codebuild:BatchGetBuilds'
                   - 'codebuild:StartBuild'
-                Resource: '*'
-              - Effect: Allow
-                Action:
-                  - 'devicefarm:ListProjects'
-                  - 'devicefarm:ListDevicePools'
-                  - 'devicefarm:GetRun'
-                  - 'devicefarm:GetUpload'
-                  - 'devicefarm:CreateUpload'
-                  - 'devicefarm:ScheduleRun'
-                Resource: '*'
-              - Effect: Allow
-                Action:
-                  - 'lambda:InvokeFunction'
-                  - 'lambda:ListFunctions'
                 Resource: '*'
               - Effect: Allow
                 Action:
@@ -283,10 +240,39 @@ Resources:
                   "ecr:GetAuthorizationToken",
                   "ecr:InitiateLayerUpload",
                   "ecr:PutImage",
-                  "ecr:UploadLayerPart"]
+                  "ecr:UploadLayerPart"
+                ]
+              - Effect: Allow
+                Action: [
+                    "autoscaling:*",
+                    "codedeploy:*",
+                    "ec2:*",
+                    "lambda:*",
+                    "ecs:*",
+                    "elasticloadbalancing:*",
+                    "iam:AddRoleToInstanceProfile",
+                    "iam:CreateInstanceProfile",
+                    "iam:CreateRole",
+                    "iam:DeleteInstanceProfile",
+                    "iam:DeleteRole",
+                    "iam:DeleteRolePolicy",
+                    "iam:GetInstanceProfile",
+                    "iam:GetRole",
+                    "iam:GetRolePolicy",
+                    "iam:ListInstanceProfilesForRole",
+                    "iam:ListRolePolicies",
+                    "iam:ListRoles",
+                    "iam:PassRole",
+                    "iam:PutRolePolicy",
+                    "iam:RemoveRoleFromInstanceProfile",
+                    "s3:*"
+                  ]
                 Resource: "*"
               - Effect: Allow
                 Action: ["sns:Publish"]
+                Resource: "*"
+              - Effect: Allow
+                Action: ["cloudformation:*"]
                 Resource: "*"
 #https://github:
 #  com/nomnux/aws-codebuild-docker-project-sample/blob/master/cloudformation/codebuild-project:
