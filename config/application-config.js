@@ -1,6 +1,6 @@
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
-const database = require('./config')[NODE_ENV]
+// const database = require('./config')[NODE_ENV]
 
 const applicationConfig = {
   development: {
@@ -9,6 +9,6 @@ const applicationConfig = {
   },
 }
 
-applicationConfig[NODE_ENV].database = database
+// applicationConfig[NODE_ENV].database = database
 
 module.exports = applicationConfig[NODE_ENV]

@@ -1,12 +1,12 @@
 const NODE_ENV = process.env.NODE_ENV || 'development'
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 3000
 const app = require('./server')
-const { getDatabase } = require('./src/db/database-manager')
-const { createDoggos } = require('./scripts/create-doggos')
-const { tryStartup } = require('./scripts/create-db')
+// const { getDatabase } = require('./src/db/database-manager')
+// const { createDoggos } = require('./scripts/create-doggos')
+// const { tryStartup } = require('./scripts/create-db')
 const logger = require('./src/logger')('index')
 
-const db = getDatabase()
+// const db = getDatabase()
 
 logger.info(`App running ${NODE_ENV} mode`)
 

@@ -5,10 +5,10 @@ const BASE_URL = '/api/v1'
 const app = express()
 
 app.get('/', (req, res) => {
-  res.send(`Hello World!!!${process.env.NODE_ENV}`)
+  res.send(`We kinda got this`)
 })
 
 app.use(morgan('tiny'))
-app.use(`${BASE_URL}/users/`, require('./src/routers/user-router'))
+// app.use(`${BASE_URL}/users/`, require('./src/routers/user-router'))
 
 module.exports = app
