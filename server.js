@@ -5,7 +5,7 @@ const BASE_URL = '/api/v1'
 const app = express()
 
 app.get('/', (req, res) => {
-  res.send(`We kinda got this`)
+  res.send(`New Updated container`)
 })
 
 app.get('/health', (req, res) => {
