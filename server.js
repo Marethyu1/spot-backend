@@ -8,6 +8,10 @@ app.get('/', (req, res) => {
   res.send(`We kinda got this`)
 })
 
+app.get('/health', (req, res) => {
+  res.send('ok')
+})
+
 app.use(morgan('tiny'))
 // app.use(`${BASE_URL}/users/`, require('./src/routers/user-router'))
 
