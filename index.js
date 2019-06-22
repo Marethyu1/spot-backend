@@ -9,6 +9,7 @@ const logger = require('./src/logger')('index')
 // const db = getDatabase()
 
 logger.info(`App running ${NODE_ENV} mode`)
+logger.info(`App starting up... `)
 
 function initApp() {
   app.listen(PORT, () => {
