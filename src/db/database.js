@@ -29,15 +29,15 @@ class Database {
         define: {
           timestamps: false,
         },
-        logging: process.env.NODE_ENV === 'production',
+        // logging: process.env.NODE_ENV === 'production',
         storage: config.storage,
         dialectOptions: {
         },
       }
 
-      if (process.env.NODE_ENV === 'production') {
-        options.dialectOptions.socketPath = `/cloudsql/${config.instance_connection_name}`
-      }
+      // if (process.env.NODE_ENV === 'production') {
+      //   options.dialectOptions.socketPath = `/cloudsql/${config.instance_connection_name}`
+      // }
 
       sequelize = new Sequelize(
         config.database,
