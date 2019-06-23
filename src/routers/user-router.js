@@ -21,6 +21,7 @@ const wrap = fn => async (req, res, next) => {
 
 router.route('/')
   .post(wrap(userController.create))
+  .get(wrap(userController.findUsers))
 
 router.route('/:user_id/dogs')
   .get(wrap(userController.findDogs))

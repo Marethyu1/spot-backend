@@ -1,12 +1,12 @@
 const NODE_ENV = process.env.NODE_ENV || 'development'
 const PORT = process.env.PORT || 3000
 const app = require('./server')
-// const { getDatabase } = require('./src/db/database-manager')
-// const { createDoggos } = require('./scripts/create-doggos')
-// const { tryStartup } = require('./scripts/create-db')
+const { getDatabase } = require('./src/db/database-manager')
+const { createDoggos } = require('./scripts/create-doggos')
+const { tryStartup } = require('./scripts/create-db')
 const logger = require('./src/logger')('index')
 
-// const db = getDatabase()
+const db = getDatabase()
 
 logger.info(`App running ${NODE_ENV} mode`)
 logger.info(`App starting up... `)
@@ -17,7 +17,7 @@ function initApp() {
     logger.info(`app running in ${NODE_ENV} on port ${PORT}`)
   })
 }
-initApp()
+// initApp()
 // if (NODE_ENV === 'development') {
 //   tryStartup(5)
 //     .then(() => db.sync(false))
@@ -30,3 +30,6 @@ initApp()
 //   db.testConnection()
 //     .then(initApp)
 // }
+
+db.testConnection()
+  .then(initApp)

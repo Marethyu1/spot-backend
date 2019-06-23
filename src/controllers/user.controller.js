@@ -88,6 +88,13 @@ const updateDogTag = async (req, res, next) => {
   res.send(body)
 }
 
+const findUsers = async (req, res) => {
+  console.log('finding users')
+  const users = await userModel.list()
+
+  res.send(users)
+}
+
 
 module.exports = {
   create,
@@ -95,4 +102,5 @@ module.exports = {
   createDog,
   findImage,
   updateDogTag,
+  findUsers
 }
