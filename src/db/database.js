@@ -2,6 +2,7 @@ const Sequelize = require('sequelize')
 
 let sequelize = null
 const modelLoader = require('./create-db-models')
+const logger = require('../logger')('db')
 
 /**
  * Database Representation as a singleton
@@ -29,7 +30,7 @@ class Database {
         define: {
           timestamps: false,
         },
-        // logging: process.env.NODE_ENV === 'production',
+        logging: logger.info,
         storage: config.storage,
         dialectOptions: {
         },
@@ -80,7 +81,7 @@ class Database {
      */
   async testConnection() {
     return sequelize.authenticate()
-      .then(() => console.log('Successfully connected to the db'))
+      .then(() => logger.info('Successfully connected to the db'))
       .then(() => true)
   }
 

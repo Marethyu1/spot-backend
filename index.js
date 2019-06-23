@@ -33,3 +33,7 @@ function initApp() {
 
 db.testConnection()
   .then(initApp)
+  .catch((err) => {
+    logger.info(err)
+    initApp()
+  })
