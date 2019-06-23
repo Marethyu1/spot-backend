@@ -30,8 +30,8 @@ function initApp() {
 //   db.testConnection()
 //     .then(initApp)
 // }
-
-db.testConnection()
+tryStartup(5)
+  .then(() => db.testConnection())
   .then(initApp)
   .catch((err) => {
     logger.info(err)
