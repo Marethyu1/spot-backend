@@ -30,7 +30,8 @@ class Database {
         define: {
           timestamps: false,
         },
-        logging: logger.info,
+        // logging: logger.info,
+        logging: false,
         storage: config.storage,
         dialectOptions: {
         },

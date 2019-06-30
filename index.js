@@ -17,23 +17,26 @@ function initApp() {
     logger.info(`app running in ${NODE_ENV} on port ${PORT}`)
   })
 }
+
+console.log(NODE_ENV)
 // initApp()
-// if (NODE_ENV === 'development') {
-//   tryStartup(5)
-//     .then(() => db.sync(false))
-//     .then(createDoggos)
-//     .then(initApp)
-//     .catch((err) => {
-//       logger.error(`Could not connect to db ${err.stack}`)
-//     })
-// } else {
-//   db.testConnection()
-//     .then(initApp)
-// }
-tryStartup(5)
-  .then(() => db.testConnection())
-  .then(initApp)
-  .catch((err) => {
-    logger.info(err)
-    initApp()
-  })
+
+if (NODE_ENV === 'development') {
+  tryStartup(5)
+    .then(() => db.sync(false))
+    .then(createDoggos)
+    .then(initApp)
+    .catch((err) => {
+      logger.error(`Could not connect to db ${err.stack}`)
+    })
+} else {
+  db.testConnection()
+    .then(initApp)
+}
+// tryStartup(5)
+//   .then(() => db.testConnection())
+//   .then(initApp)
+//   .catch((err) => {
+//     logger.info(err)
+//     initApp()
+//   })

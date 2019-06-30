@@ -10,7 +10,7 @@
     "username": "root",
     "password": "example",
     "database": "spot_test",
-    "host": "localhost",
+    "host": "spot-db.cnhd6ep2ohms.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "production": {

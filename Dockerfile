@@ -1,14 +1,18 @@
 FROM node:10.16.0-alpine
 
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 # Create app directory
 WORKDIR /usr/src/app
+
+RUN echo $NODE_ENV > image.txt
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
 
-# RUN apk add --no-cache --virtual .gyp python make g++ 
+# RUN apk add --no-cache --virtual .gyp python make g++
 
 # RUN apk add vips-dev fftw-dev build-base --update-cache \
 #     --repository https://alpine.global.ssl.fastly.net/alpine/edge/community/ \
@@ -39,8 +43,6 @@ RUN apk add vips-dev fftw-dev build-base --update-cache \
      make \
      g++ \
      && npm install
-
-#RUN npm install
 
 # Bundle app source
 COPY . .
