@@ -49,6 +49,7 @@ describe('the user routes', () => {
     it('should be able to save an image', async () => {
       const user = await createUser()
       const dogProps = generateDogPropsWithImage(user.id)
+      console.log(dogProps)
       const url = `${BASE_URL}/${user.id}/dogs`
 
       const { status, body } = await request(server)

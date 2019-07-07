@@ -2,6 +2,7 @@ const userModel = require('../models/user-model')
 const dogsModel = require('../models/dogs-model')
 const imagesModel = require('../models/images-model')
 const { getTags } = require('./vision-controller')
+const { saveImage } = require('../images-s3')
 
 
 const create = async (req, res, next) => {
@@ -38,7 +39,9 @@ const createDog = async (req, res) => {
     ...req.body,
     ...req.body.geocode,
   }
+  const savedIamge = await saveImage(user_id, options.image.image)
   const image = Buffer.from(options.image.image.toString(), 'base64')
+
 
   const tags = await getTags(image)
     .catch((err) => {
@@ -95,6 +98,15 @@ const findUsers = async (req, res) => {
   res.send(users)
 }
 
+const s3 = async (req, res) => {
+  const { user_id } = req.params
+  const image = require('../../test/helper/load-image')
+  console.log('saving image..')
+
+  const savedIamge = await saveImage(user_id, image)
+  res.send(savedIamge)
+}
+
 
 module.exports = {
   create,
@@ -102,5 +114,6 @@ module.exports = {
   createDog,
   findImage,
   updateDogTag,
-  findUsers
+  findUsers,
+  s3
 }

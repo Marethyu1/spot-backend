@@ -27,6 +27,9 @@ router.route('/:user_id/dogs')
   .get(wrap(userController.findDogs))
   .post(rawParser, wrap(userController.createDog))
 
+router.route('/:user_id/dogs/s3')
+  .get(wrap(userController.s3))
+
 router.route('/:user_id/dogs/:dog_id/*/:image_id')
   .get(wrap(userController.findImage))
 
