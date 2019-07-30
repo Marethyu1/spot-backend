@@ -9,7 +9,7 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=example
       - DB_NAME=spot_dev
-      - DB_HOST=spot-backend_db_1
+      - DB_HOST=spot_local_db
     restart: always
     build:
       context: .
@@ -23,6 +23,7 @@ services:
     command: npm run dev
   db:
     image: mysql:5.7.13
+    container_name: spot_local_db
     environment:
       MYSQL_ROOT_PASSWORD: example
     ports:

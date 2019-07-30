@@ -35,14 +35,16 @@ COPY package*.json ./
 
 
 # Dis is the good one, todo add back in
-RUN apk add vips-dev fftw-dev build-base --update-cache \
-     --repository https://alpine.global.ssl.fastly.net/alpine/edge/community/ \
-     --repository https://alpine.global.ssl.fastly.net/alpine/edge/main/ \
-     && apk --no-cache --virtual build-dependencies add \
-     python \
-     make \
-     g++ \
-     && npm install
+#RUN apk add vips-dev fftw-dev build-base --update-cache \
+#     --repository https://alpine.global.ssl.fastly.net/alpine/edge/community/ \
+#     --repository https://alpine.global.ssl.fastly.net/alpine/edge/main/ \
+#     && apk --no-cache --virtual build-dependencies add \
+#     python \
+#     make \
+#     g++ \
+#     && npm install
+
+RUN npm install
 
 # Bundle app source
 COPY . .
